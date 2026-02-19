@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:soccer_app/pages/library.dart';
+import 'package:soccer_app/pages/settings.dart';
+import 'package:soccer_app/pages/upload.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,7 +14,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String a="hello";
   int _selectedIndex=0;
-  List<String> titles=['home','business','school'];
+  List<String> titles=['Upload','Library','Settings'];
+  List<Widget> pages=[UploadPage(),LibraryPage(),SettingsPage()];
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -24,28 +29,13 @@ class _HomePageState extends State<HomePage> {
         title: Text(titles[_selectedIndex]),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(a),
-              ],
-            ),
-            ElevatedButton(onPressed: (){
-              setState(() {
-                a+="hello";
-              });
-            }, child: Icon(Icons.water))
-          ],
-        ),
+        child:pages[_selectedIndex]
       ),
       bottomNavigationBar:  BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.business), label: 'Business'),
-          BottomNavigationBarItem(icon: Icon(Icons.school), label: 'School'),
+          BottomNavigationBarItem(icon: Icon(Icons.upload_sharp), label: 'Upload'),
+          BottomNavigationBarItem(icon: Icon(Icons.library_add_check), label: 'Library'),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
 
         ],
         currentIndex: _selectedIndex,
