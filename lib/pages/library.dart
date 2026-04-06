@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class LibraryPage extends StatefulWidget {
@@ -9,19 +10,26 @@ class LibraryPage extends StatefulWidget {
 
 class _LibraryPageState extends State<LibraryPage> {
 
-  final List<Map<String,String>> data=[
-    {
-      "url":"https://www.chemwatch.net/wp-content/uploads/2021/11/image-6-1024x682.jpeg",
-      "name":"orange"
-    },
-    {
-      "url":"https://static.wikia.nocookie.net/the-snack-encyclopedia/images/7/7d/Apple.png/revision/latest?cb=20200706145821",
-      "name":"apple"
-    },
+  final List<Map<String,dynamic>> data=[
+
   ];
+
+
+  void fetchUserData(){
+    FirebaseFirestore.instance.collection("videos").get().then(
+          (querySnapshot) {
+        print("Successfully completed");
+        for (var docSnapshot in querySnapshot.docs) {
+          data.add(docSnapshot.data());
+        }
+      },
+      onError: (e) => print("Error completing: $e"),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    fetchUserData();
     return ListView.builder(
         padding: const EdgeInsets.all(8),
         itemCount: 2,
