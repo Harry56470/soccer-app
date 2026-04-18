@@ -27,12 +27,19 @@ class _LibraryPageState extends State<LibraryPage> {
     );
   }
 
+
+  @override
+  void initState(){
+    super.initState();
+    fetchUserData();
+  }
+
   @override
   Widget build(BuildContext context) {
-    fetchUserData();
+
     return ListView.builder(
         padding: const EdgeInsets.all(8),
-        itemCount: 2,
+        itemCount: data.length,
         itemBuilder: (BuildContext context, int index) {
           final videoData = (data[index]);
           return videoTile(videoData["url"]!, videoData["name"]!);
