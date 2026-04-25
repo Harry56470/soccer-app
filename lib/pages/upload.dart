@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -13,8 +14,10 @@ class UploadPage extends StatefulWidget {
 
 class _UploadPageState extends State<UploadPage> {
   final ImagePicker picker = ImagePicker();
+  final storageRef = FirebaseStorage.instance.ref();
   final db=FirebaseFirestore.instance;
   XFile? pickedVideo;
+  final nameController=TextEditingController();
   void chooseVideo()async{
 // Pick an image.
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
@@ -26,12 +29,23 @@ class _UploadPageState extends State<UploadPage> {
     });
   }
   void upload()async{
-    db.collection("videos").doc().set(
-        {
-          "name": "blueberry",
-          "url":"https://www.fourwindsgrowers.com/cdn/shop/products/shutterstock_722035450blueberry2_70d2b1fb-ee3f-46fb-afde-5df11232bdbe_grande.jpg?v=1729795889"
-        }
-    );
+    final videoPath = storageRef.child("${nameController.text}.jpg");
+    if(pickedVideo!=null){
+      File file = File(pickedVideo!.path);
+      try {
+        await videoPath.putFile(file);
+        String url = await videoPath.getDownloadURL();
+        db.collection("videos").doc().set(
+            {
+              "name": nameController.text,
+              "url":url
+            }
+        );
+      } on FirebaseException catch (e) {
+        // ...
+      }
+    }
+
   }
 
   @override
@@ -83,6 +97,17 @@ class _UploadPageState extends State<UploadPage> {
               ),
             )
         ),
+        Container(
+          width: 200,
+            child: TextField(
+              controller: nameController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20)
+                )
+              ),
+            )
+        )
       ],
     );
   }
