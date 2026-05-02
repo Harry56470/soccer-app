@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -28,10 +28,42 @@ class _UploadPageState extends State<UploadPage> {
 
     });
   }
+  Future<void> uploadFile(String filePath) async {
+    var url = Uri.parse('http://10.0.2.2:5000/upload');
+
+    // 1. Create a MultipartRequest
+    var request = http.MultipartRequest('POST', url);
+
+    // 2. Add text fields (optional)
+    request.fields['user_id'] = '123';
+    request.fields['category'] = 'reports';
+
+    // 3. Add the file
+    request.files.add(
+      await http.MultipartFile.fromPath(
+        'file', // The field name your server expects
+        filePath,
+      ),
+    );
+
+    // 4. Send the request
+    var response = await request.send();
+
+    // 5. Handle response
+    if (response.statusCode == 200) {
+      print("Uploaded!");
+      final respStr = await response.stream.bytesToString();
+      print(respStr);
+    } else {
+      print("Upload failed: ${response.statusCode}");
+    }
+  }
   void upload()async{
     final videoPath = storageRef.child("${nameController.text}.jpg");
     if(pickedVideo!=null){
       File file = File(pickedVideo!.path);
+      uploadFile(file.path);
+      return;
       try {
         await videoPath.putFile(file);
         String url = await videoPath.getDownloadURL();
