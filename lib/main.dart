@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:soccer_app/navigation_screen.dart';
+import 'package:soccer_app/pages/login.dart';
+import 'package:soccer_app/pages/signup.dart';
 
 import 'firebase_options.dart';
 
@@ -19,7 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home: const NavigationScreen()
+      home:SignupPage() //const NavigationScreen()
     );
   }
 }
