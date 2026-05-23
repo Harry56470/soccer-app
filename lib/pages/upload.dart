@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -28,15 +29,15 @@ class _UploadPageState extends State<UploadPage> {
 
     });
   }
-  Future<void> uploadFile(String filePath) async {
+  Future<void> uploadFile(String filePath,String name) async {
     var url = Uri.parse('http://10.0.2.2:5000/upload');
 
     // 1. Create a MultipartRequest
     var request = http.MultipartRequest('POST', url);
 
     // 2. Add text fields (optional)
-    request.fields['user_id'] = '123';
-    request.fields['category'] = 'reports';
+    request.fields['user_id'] = FirebaseAuth.instance.currentUser!.uid;
+    request.fields['name']= name;
 
     // 3. Add the file
     request.files.add(
@@ -58,11 +59,11 @@ class _UploadPageState extends State<UploadPage> {
       print("Upload failed: ${response.statusCode}");
     }
   }
-  void upload()async{
+  void upload(String name)async{
     final videoPath = storageRef.child("${nameController.text}.jpg");
     if(pickedVideo!=null){
       File file = File(pickedVideo!.path);
-      uploadFile(file.path);
+      uploadFile(file.path,name);
       return;
       try {
         await videoPath.putFile(file);
@@ -116,7 +117,7 @@ class _UploadPageState extends State<UploadPage> {
         ),
         ElevatedButton(
             onPressed: (){
-              upload();
+              upload(nameController.text);
             },
             child: SizedBox(
               width: 200,

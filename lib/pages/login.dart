@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:soccer_app/navigation_screen.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -50,6 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                       ElevatedButton(
                           onPressed: (){
                             FirebaseAuth.instance.signInWithEmailAndPassword(email: emailController.text, password: passwordController.text);
+                            Navigator.push(context, MaterialPageRoute(builder: (_)=>NavigationScreen()));
                           },
                           child: SizedBox(
                             width: 200,

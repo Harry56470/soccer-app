@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:soccer_app/pages/login.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -61,7 +62,10 @@ class _SignupPageState extends State<SignupPage> {
                             ],
                           ),
                         )
-                    )
+                    ),
+                    TextButton(onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (_)=>LoginPage()));
+                    }, child: Text("Already have an account? Tap here"))
                   ],
                 ),
               ),
