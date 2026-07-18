@@ -64,7 +64,7 @@ class _LibraryPageState extends State<LibraryPage> {
               itemCount: data!.length,
               itemBuilder: (BuildContext context, int index) {
                 final videoData = (data[index]);
-                return videoTile(videoData["url"]!, videoData["name"]!);
+                return videoTile(videoData);
               }
           );
         }
@@ -72,7 +72,11 @@ class _LibraryPageState extends State<LibraryPage> {
 
   }
 
-  Widget videoTile(String imageURL,String name){
+  Widget videoTile(Map<String,dynamic> videoData){
+    String imageURL=videoData["thumbnailUrl"]!;
+    String videoURL=videoData["videoUrl"]!;
+    String name=videoData["name"]!;
+    int progress=videoData["progress"]!;
     return InkWell(
       onTap: (){
         Navigator.push(context, MaterialPageRoute(builder: (_)=>VideoPage(name: name, videoUrl: imageURL)));
@@ -80,7 +84,7 @@ class _LibraryPageState extends State<LibraryPage> {
       child: Row(
         children: [
           Image.network(imageURL,width: 100,),
-          Text(name)
+          Text(name),Text(progress.toString())
         ],
       ),
     );

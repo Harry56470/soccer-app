@@ -21,7 +21,7 @@ class _UploadPageState extends State<UploadPage> {
   final nameController=TextEditingController();
   void chooseVideo()async{
 // Pick an image.
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    final XFile? image = await picker.pickVideo(source: ImageSource.gallery);
     setState(() {
       if(image!=null){
         pickedVideo=image;
