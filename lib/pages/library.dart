@@ -79,7 +79,7 @@ class _LibraryPageState extends State<LibraryPage> {
     int progress=videoData["progress"]!;
     return InkWell(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (_)=>VideoPage(name: name, videoUrl: imageURL)));
+        Navigator.push(context, MaterialPageRoute(builder: (_)=>VideoPage(name: name, videoUrl: videoURL)));
       },
       child: Row(
         children: [

@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:soccer_app/widgets/video_player_widget.dart';
 
 class UploadPage extends StatefulWidget {
   const UploadPage({super.key});
@@ -89,7 +90,7 @@ class _UploadPageState extends State<UploadPage> {
       children: [
         Text("Analyze Soccer Match",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
         SizedBox(height: 70,),
-        (pickedVideo!=null)?Image.file(File(pickedVideo!.path)):Container(),
+        (pickedVideo!=null)?AnalysisVideoPlayer(localFile: pickedVideo,):Container(),
         ElevatedButton(onPressed: (){}, child: SizedBox(
           width: 200,
           child: Row(

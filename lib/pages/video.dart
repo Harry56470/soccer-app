@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:soccer_app/widgets/video_player_widget.dart';
 
 class VideoPage extends StatefulWidget {
   final String name;
@@ -16,7 +17,7 @@ class _VideoPageState extends State<VideoPage> {
       appBar: AppBar(),
       body: Column(
         children: [
-          Image.network(widget.videoUrl),
+          AnalysisVideoPlayer(videoUrl: widget.videoUrl,),
           Text(widget.name)
         ],
       ),
