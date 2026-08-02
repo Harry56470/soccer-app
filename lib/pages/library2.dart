@@ -180,117 +180,124 @@ class _AnalysisCard extends StatelessWidget {
             : null,
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Row(
             children: [
-              // Video name + time
-              Row(
-                children: [
-                  const Icon(
-                    Icons.videocam,
-                    size: 20,
-                    color: Color(0xFF2E7D32),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      name,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF212121),
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  if (timeStr.isNotEmpty)
-                    Text(
-                      timeStr,
-                      style: const TextStyle(
-                        color: Colors.black38,
-                        fontSize: 11,
-                      ),
-                    ),
-                ],
-              ),
-
-              const SizedBox(height: 10),
-
-              // Status row
-              Row(
-                children: [
-                  _statusIcon(status),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      _statusLabel(status),
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                  Text(
-                    '$goalCount goal${goalCount == 1 ? '' : 's'}',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: goalCount > 0
-                          ? const Color(0xFF2E7D32)
-                          : Colors.black38,
-                    ),
-                  ),
-                ],
-              ),
-
-              // Progress bar for processing videos
-              if (status == 'processing' || status == 'queued') ...[
-                const SizedBox(height: 12),
-                LinearProgressIndicator(
-                  value: status == 'queued' ? null : progress / 100,
-                  backgroundColor: Colors.black12,
-                  color: const Color(0xFF43A047),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  status == 'queued'
-                      ? 'Waiting to start...'
-                      : '${progress.toStringAsFixed(1)}% processed',
-                  style: const TextStyle(color: Colors.black45, fontSize: 12),
-                ),
-              ],
-
-              // Error message
-              if (status == 'error')
-                Padding(
-                  padding: const EdgeInsets.only(top: 8),
-                  child: Text(
-                    data['error'] ?? 'Unknown error',
-                    style: const TextStyle(
-                      color: Colors.redAccent,
-                      fontSize: 13,
-                    ),
-                  ),
-                ),
-
-              // Expandable goal list
-              if (isDone && goals.isNotEmpty) _GoalExpansionTile(goals: goals),
-
-              // Tap hint for completed analyses
-              if (isDone && videoUrl.isNotEmpty) ...[
-                const SizedBox(height: 8),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+              Expanded(child: Image.network(thumbnailUrl,width: 100,)),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Watch Video',
-                      style: TextStyle(color: Colors.black38, fontSize: 11),
+                    // Video name + time
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.videocam,
+                          size: 20,
+                          color: Color(0xFF2E7D32),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            name,
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFF212121),
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        if (timeStr.isNotEmpty)
+                          Text(
+                            timeStr,
+                            style: const TextStyle(
+                              color: Colors.black38,
+                              fontSize: 11,
+                            ),
+                          ),
+                      ],
                     ),
-                    SizedBox(width: 4),
-                    Icon(Icons.chevron_right, size: 16, color: Colors.black38),
+
+                    const SizedBox(height: 10),
+
+                    // Status row
+                    Row(
+                      children: [
+                        _statusIcon(status),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            _statusLabel(status),
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                        Text(
+                          '$goalCount goal${goalCount == 1 ? '' : 's'}',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: goalCount > 0
+                                ? const Color(0xFF2E7D32)
+                                : Colors.black38,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    // Progress bar for processing videos
+                    if (status == 'processing' || status == 'queued') ...[
+                      const SizedBox(height: 12),
+                      LinearProgressIndicator(
+                        value: status == 'queued' ? null : progress / 100,
+                        backgroundColor: Colors.black12,
+                        color: const Color(0xFF43A047),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        status == 'queued'
+                            ? 'Waiting to start...'
+                            : '${progress.toStringAsFixed(1)}% processed',
+                        style: const TextStyle(color: Colors.black45, fontSize: 12),
+                      ),
+                    ],
+
+                    // Error message
+                    if (status == 'error')
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: Text(
+                          data['error'] ?? 'Unknown error',
+                          style: const TextStyle(
+                            color: Colors.redAccent,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ),
+
+                    // Expandable goal list
+                    if (isDone && goals.isNotEmpty) _GoalExpansionTile(goals: goals),
+
+                    // Tap hint for completed analyses
+                    if (isDone && videoUrl.isNotEmpty) ...[
+                      const SizedBox(height: 8),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            'Watch Video',
+                            style: TextStyle(color: Colors.black38, fontSize: 11),
+                          ),
+                          SizedBox(width: 4),
+                          Icon(Icons.chevron_right, size: 16, color: Colors.black38),
+                        ],
+                      ),
+                    ],
                   ],
                 ),
-              ],
+              ),
             ],
           ),
         ),
