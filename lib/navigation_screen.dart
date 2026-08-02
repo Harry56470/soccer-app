@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:soccer_app/pages/library.dart';
+import 'package:soccer_app/pages/library2.dart';
 import 'package:soccer_app/pages/settings.dart';
 import 'package:soccer_app/pages/upload.dart';
+import 'package:soccer_app/pages/upload2.dart';
 
 class NavigationScreen extends StatefulWidget {
   const NavigationScreen({super.key});
@@ -14,7 +16,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   String a = "hello";
   int _selectedIndex = 0;
   List<String> titles = ['Upload', 'Library', 'Settings'];
-  List<Widget> pages = [UploadPage(), LibraryPage(), SettingsPage()];
+  List<Widget> pages = [UploadPage2(), LibraryPage2(), SettingsPage()];
 
   void _onItemTapped(int index) {
     setState(() {

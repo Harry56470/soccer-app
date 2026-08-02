@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:soccer_app/constants.dart';
 import 'package:soccer_app/widgets/video_player_widget.dart';
 
 class UploadPage extends StatefulWidget {
@@ -31,7 +32,7 @@ class _UploadPageState extends State<UploadPage> {
     });
   }
   Future<void> uploadFile(String filePath,String name) async {
-    var url = Uri.parse('http://10.0.2.2:5000/upload');
+    var url = Uri.parse('$serverUrl/upload');
 
     // 1. Create a MultipartRequest
     var request = http.MultipartRequest('POST', url);
